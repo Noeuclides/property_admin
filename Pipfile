@@ -1,0 +1,19 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+django = "*"
+psycopg2 = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.7"
+
+[scripts]
+makemigrations = "python manage.py makemigrations --settings=property_admin.settings.local"
+migrate = "python manage.py migrate --settings=property_admin.settings.local"
+server = "python manage.py runserver --settings=property_admin.settings.local 0.0.0.0:8000"
+createsuperuser = "python manage.py createsuperuser --settings=property_admin.settings.local"
