@@ -1,0 +1,7 @@
+{% extends 'users/base.html' %}
+{% load static %}
+{% block content %}
+{% for i in object_list %}
+{{ i }}
+{% endfor %}
+{% endblock %}
