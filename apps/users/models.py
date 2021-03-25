@@ -1,8 +1,9 @@
 from __future__ import annotations
+
+from django.contrib.auth.models import (AbstractBaseUser, BaseUserManager,
+                                        PermissionsMixin)
+from django.core.exceptions import ValidationError
 from django.db import models
-from django.contrib.auth.models import (
-    BaseUserManager, AbstractBaseUser, PermissionsMixin
-)
 
 
 class UserManager(BaseUserManager):
@@ -54,7 +55,8 @@ class UserManager(BaseUserManager):
 
 
 class User(AbstractBaseUser, PermissionsMixin):
-    id_card = models.CharField('Identification card', max_length=50, unique=True)
+    id_card = models.CharField(
+        'Identification card', max_length=50, unique=True)
     email = models.EmailField('email', max_length=255, unique=True)
     name = models.CharField(
         'name', max_length=255, blank=True, null=True)
@@ -66,6 +68,12 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['id_card', 'name', 'last_name']
+
+    def clean(self):
+        try:
+            int(self.id_card)
+        except Exception:
+            raise ValidationError("Por favor colocar una cédula válida.")
 
     def __str__(self) -> str:
         return f'{self.name} {self.last_name}'

@@ -24,17 +24,17 @@ class BaseModel(models.Model):
 
 
 class AddressModel(BaseModel):
-    CALLE = 'Calle'
-    CARRERA = 'Carrera'
-    AVENIDA = 'Avenida'
-    AVENIDA_CARRERA = 'Avenida Carrera'
-    AVENIDA_CALLE = 'Avenida Calle'
-    CIRCULAR = 'Circular'
-    CIRCUNVALAR = 'Circunvalar'
-    DIAGONAL = 'Diagonal'
-    MANZANA = 'Manzana'
-    TRANSVERSAL = 'Transversal'
-    VIA = 'Vía'
+    CALLE = 0
+    CARRERA = 1
+    AVENIDA = 2
+    AVENIDA_CARRERA = 3
+    AVENIDA_CALLE = 4
+    CIRCULAR = 5
+    CIRCUNVALAR = 6
+    DIAGONAL = 7
+    MANZANA = 8
+    TRANSVERSAL = 9
+    VIA = 10
     ADDRESS = (
         (CALLE, 'Calle'),
         (CARRERA, 'Carrera'),
@@ -48,12 +48,12 @@ class AddressModel(BaseModel):
         (TRANSVERSAL, 'Transversal'),
         (VIA, 'Vía'),
     )
-    street = models.CharField(max_length=20, choices=ADDRESS, default=None, null=True, blank=True)
+    street = models.PositiveSmallIntegerField(choices=ADDRESS, default=None, null=True, blank=True)
     street_number = models.CharField(max_length=10, null=True, blank=True)
     corner = models.CharField(max_length=10, null=True, blank=True)
-    corner_number = models.CharField(max_length=3, null=True, blank=True)
+    corner_number = models.IntegerField(null=True, blank=True)
     rural = models.CharField(max_length=255, verbose_name="Dirección rural", null=True, blank=True)
 
     class Meta:
         abstract = True
-        ordering = ["-created_at"]    
+        ordering = ["-created_at"]
