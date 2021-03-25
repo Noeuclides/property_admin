@@ -27,18 +27,16 @@ class Login(FormView):
         login(self.request, form.get_user())
         return super(Login, self).form_valid(form)
 
+    def form_invalid(self, form):
+        return super(Login, self).form_invalid(form)
+
+    def get_success_url(self) -> str:
+        return reverse_lazy('property:owner_properties', kwargs={'pk': self.request.user.id})
+
 
 def user_logout(request):
     logout(request)
-    return HttpResponseRedirect('/users/login')
-
-
-class UserList(ListView):
-    model = User
-    template_name = 'users/user_list.html'
-
-    def get_queryset(self):
-        return self.model.objects.filter(is_active=True)
+    return HttpResponseRedirect('/usuario/login')
 
 
 class UserRegister(CreateView):
