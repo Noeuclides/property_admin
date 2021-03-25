@@ -117,7 +117,3 @@ USE_TZ = True
 
 AUTH_USER_MODEL = 'users.User'
 
-AUTHENTICATION_BACKENDS = ['django.contrib.auth.backends.ModelBackend', 'apps.users.backends.EmailAuthBackend']
-
-# LOGIN_REDIRECT_URL = reverse_lazy('users:login')
-# LOGOUT_REDIRECT_URL = reverse_lazy('login')
