@@ -36,7 +36,7 @@ class Property(AddressModel):
     type = models.PositiveSmallIntegerField(choices=TYPE, verbose_name="tipo de predio", default=None)
     cadastral_id = models.CharField("Cédula catastral", max_length=50, unique=True)
     registration_number = models.CharField("Número de matrícula inmobiliaria", max_length=250, unique=True)
-    company = models.ForeignKey(Company, on_delete=models.CASCADE, null=True)
+    company = models.ForeignKey(Company, on_delete=models.CASCADE, null=True, blank=True)
 
     class Meta:
         """Meta definition for Property."""
