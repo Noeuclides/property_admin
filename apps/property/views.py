@@ -8,8 +8,8 @@ from django.urls import reverse_lazy
 from django.views.generic import (CreateView, DeleteView, DetailView, ListView,
                                   UpdateView)
 
-from apps.property.forms import RegisterForm
-from apps.property.models import Property
+from apps.property.forms import RegisterForm, CompanyRegisterForm
+from apps.property.models import Company, Property
 from apps.users.models import User
 
 
@@ -91,6 +91,21 @@ class PropertyDelete(UserPassesTestMixin, DeleteView):
         property = Property.objects.filter(pk=self.object.id)
         property.delete()
         return HttpResponseRedirect(success_url)
+
+    def get_success_url(self):
+        return reverse_lazy('property:owner_properties', kwargs={'pk': self.request.user.id})
+
+
+class CompanyRegister(LoginRequiredMixin, CreateView):
+    model = Company
+    form_class = CompanyRegisterForm
+    template_name = 'property/register_company.html'
+    login_url = reverse_lazy('users:login')
+
+    def form_valid(self, form):
+        user = User.objects.get(id=self.request.user.id)
+        form.instance.associate = user
+        return super(CompanyRegister, self).form_valid(form)
 
     def get_success_url(self):
         return reverse_lazy('property:owner_properties', kwargs={'pk': self.request.user.id})

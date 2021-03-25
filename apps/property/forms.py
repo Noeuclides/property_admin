@@ -1,5 +1,5 @@
 from django import forms
-from apps.property.models import Property
+from apps.property.models import Company, Property
 
 
 class RegisterForm(forms.ModelForm):
@@ -41,3 +41,17 @@ class RegisterForm(forms.ModelForm):
                 )
 
         return cleaned_data
+
+
+class CompanyRegisterForm(forms.ModelForm):
+
+    class Meta:
+        model = Company
+        exclude = ['associate']
+
+    def __init__(self, *args, **kwargs):
+        super(CompanyRegisterForm, self).__init__(*args, **kwargs)
+        for visible in self.visible_fields():
+            if hasattr(visible.field.widget, 'input_type'):
+                if visible.field.widget.input_type == 'text':
+                    visible.field.widget.attrs['class'] = 'form-control'
