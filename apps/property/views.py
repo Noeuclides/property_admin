@@ -24,13 +24,7 @@ class PropertyList(LoginRequiredMixin, ListView):
     context_object_name = 'property_obj'
 
     def get_queryset(self):
-        return self.model.objects.select_related('owner').annotate(
-            address=Case(
-                When(rural__isnull=False, then='rural'),
-                default=Concat('street', V(' '), 'street_number',
-                               V(' #'), 'corner', V(' - '), 'corner_number')
-            )
-        )
+        return self.model.objects.select_related('owner')
 
 
 class PropertyOwnerList(UserPassesTestMixin, DetailView):
@@ -45,13 +39,7 @@ class PropertyOwnerList(UserPassesTestMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         context = super(PropertyOwnerList, self).get_context_data(**kwargs)
-        properties = Property.objects.filter(owner=self.request.user).annotate(
-            address=Case(
-                When(rural__isnull=False, then='rural'),
-                default=Concat('street', V(' '), 'street_number',
-                               V(' #'), 'corner', V(' - '), 'corner_number')
-            )
-        )
+        properties = Property.objects.filter(owner=self.request.user)
 
         context['property_obj'] = properties
 

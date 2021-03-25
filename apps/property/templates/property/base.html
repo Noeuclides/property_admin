@@ -29,8 +29,8 @@
 
             <nav id="navbar" class="navbar">
                 <ul>
-                    <li><a class="nav-link scrollto active" href="{% url 'home' %}">Home</a></li>
                     {% if request.user.is_authenticated %}
+                    <li><a class="nav-link scrollto active" href="{% url 'property:properties' %}">Home</a></li>
                     <li><a class="nav-link scrollto" href="{% url 'property:owner_properties' request.user.id %}">Mis Propiedades</a></li>
                     <li><a class="nav-link scrollto" href="{% url 'users:logout' %}">logout</a></li>
                     {% else %}
