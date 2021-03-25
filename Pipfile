@@ -6,6 +6,9 @@ name = "pypi"
 [packages]
 django = "*"
 psycopg2 = "*"
+pillow = "*"
+pycodestyle = "*"
+autopep8 = "*"
 
 [dev-packages]
 
@@ -17,3 +20,4 @@ makemigrations = "python manage.py makemigrations --settings=property_admin.sett
 migrate = "python manage.py migrate --settings=property_admin.settings.local"
 server = "python manage.py runserver --settings=property_admin.settings.local 0.0.0.0:8000"
 createsuperuser = "python manage.py createsuperuser --settings=property_admin.settings.local"
+shell = "python manage.py shell --settings=property_admin.settings.local"
