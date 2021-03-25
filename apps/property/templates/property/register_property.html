@@ -1,0 +1,57 @@
+{% extends 'property/base.html' %}
+{% load static %}
+{% block content %}
+<div class="form-container">
+    <h4><strong>Registro de Predio</strong></h4>
+    <form method="POST">
+        {% csrf_token %}
+        {% if form.non_field_errors %}
+        <div>
+            {% for error in form.non_field_errors %}
+            <div class="error bg-danger rounded px-3 py-1 text-white my-1"> ⚠ {{ error }}</div>
+            {% endfor %}
+        </div>
+        {% endif %}
+        <div class="form-group">
+            <label>{{ form.cadastral_id.label }}</label>
+            {{ form.cadastral_id }}
+        </div>
+        <div class="form-group">
+            <label>{{ form.registration_number.label }}</label>
+            {{ form.registration_number }}
+        </div>
+        <div class="form-group" onchange="display_address_form()">
+            <label>{{ form.type.label }}</label>
+            {{ form.type }}
+        </div>
+        <div class="form-group" id="urban" style="display: none;">
+            <label>Dirección</label>
+            <div class="row">
+                <div class="col-sm-3">
+                    <label>Tipo de Vía</label>
+                    {{ form.street }}
+                </div>
+                <div class="col-sm-3">
+                    <label>Número de la vía principal</label>
+                    {{ form.street_number }}
+                </div>
+                <div class="col-sm-3">
+                    <label>Número de la vía generadora</label>
+                    {{ form.corner }}
+                </div>
+                <div class="col-sm-3">
+                    <label>Número de placa</label>
+                    {{ form.corner_number }}
+                </div>
+            </div>
+        </div>
+        <div class="form-group" id="rural" style="display: none;">
+            <label>Nombre</label>
+            {{ form.rural }}
+        </div>
+
+        <button type="submit" class="btn btn-primary">Registrar</button>
+
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,11 @@
+{% extends 'property/base.html' %}
+{% load static %}
+{% block content %}
+<h4><strong>Eliminar Propiedad</strong></h4>
+<form method="POST" action="">
+    {% csrf_token %}
+    <h4>¿Seguro que quieres eliminar esta propiedad?</h4>
+    <a class="btn btn-secondary" href="{% url 'property:owner_properties' request.user.id %}">Cancelar</a>
+    <input type="submit" value="Confirmar" class="btn" style="background-color:rgb(230, 150, 34);color:white;">
+</form>
+{% endblock %}

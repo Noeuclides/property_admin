@@ -1,0 +1,67 @@
+{% extends 'property/base.html' %}
+{% load static %}
+{% block content %}
+{{owner}}
+<a class="nav-link scrollto" href="{% url 'property:register_property' %}">registrar</a>
+
+{% if property_obj %}
+<h5>Filtrar Resultados</h5>
+<form class="row" data-filter-form>
+    <div class="col-sm-4 form-group">
+        <label for="search_property_type">Tipo de Predio</label>
+        <select onchange="propertyFilter.filter()" class="form-control" id="search_property_type">
+            <option value="all">Todos</option>
+            {% for property in property_obj %}
+            {% ifchanged %}
+            <option value="{{ property.type }}">{{ property.type }}</option>
+            {% endifchanged %}
+            {% endfor %}
+        </select>
+    </div>
+    <div class="col-sm-4 form-group">
+        <div class="autocomplete">
+            <label for="search_catastral">Id. Catastral</label>
+            <input onkeyup="propertyFilter.filter()" type="text" class="form-control" id="search_catastral"
+                placeholder="Id. catastral" data-autocomplete-source=".property_catastral_id">
+        </div>
+    </div>
+    <div class="col-sm-4 form-group">
+        <div class="autocomplete">
+            <label for="search_address">Dirección</label>
+            <input onkeyup="propertyFilter.filter()" type="text" class="form-control" id="search_address"
+                placeholder="Dirección" data-autocomplete-source=".property_address">
+        </div>
+    </div>
+</form>
+<div>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th scope="col">Cédula Catastral</th>
+                <th scope="col">Número de matrícula inmobiliaria</th>
+                <th scope="col">Tipo de predio</th>
+                <th scope="col">Dirección</th>
+                <th scope="col">Actualizar</th>
+            </tr>
+        </thead>
+        <tbody class="property_list" data-filter-target>
+            {% for property in property_obj %}
+            <tr class="property_description">
+                <th scope="row" class="property_catastral_id">{{ property.cadastral_id }}</th>
+                <td class="property_register_number">{{ property.registration_number }}</td>
+                <td class="property_type">{{ property.type }}</td>
+                <td class="property_address">{{ property.address }}</td>
+                <td class="property_address">
+                    <a href="{% url 'property:property_update' property.id %}">Actualizar</a> 
+                    / <a href="{% url 'property:property_delete' property.id %}">Eliminar</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% else %}
+<h2>No tienes predios registrados.</h2>
+{% endif %}
+
+{% endblock %}
