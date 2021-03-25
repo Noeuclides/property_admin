@@ -8,6 +8,7 @@ django = "*"
 psycopg2-binary = "*"
 pycodestyle = "*"
 autopep8 = "*"
+django-environ = "*"
 
 [dev-packages]
 
