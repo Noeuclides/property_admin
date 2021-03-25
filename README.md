@@ -32,15 +32,16 @@ psql postgres -f create_db.sql
 ## Usage
 If docker:
 
-- only run and go to http://127.0.0.1:8000 on the browser.
+- Only run:
 ```bash
 docker-compose up --build
 ```
+And go to http://127.0.0.1:8000 on the browser.
 
 Else:
 
 
-- Run the migrate command to have the db structure on your local db:
+- Run the migrate command:
 
 ```bash
 pipenv run migrate
