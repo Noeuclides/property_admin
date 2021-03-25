@@ -6,9 +6,7 @@ if (filterForm !== null) {
     var baseFilter = {
         init: function () {
             this.table = document.querySelector("tbody[data-filter-target='']");
-            console.log(this.table)
             this.rows = this.table.children;
-            console.log(this.rows)
             return this;
         },
         checkDropdownExact: function(selectId, targetId){
@@ -23,7 +21,6 @@ if (filterForm !== null) {
                 let input = document.getElementById(inputId);
                 let target = description.getElementsByClassName(targetId)[0];
                 let sanitizedInput = sanitizeString(input.value);
-                console.log(sanitizedInput);
                 return (target && sanitizeString(target.innerHTML).indexOf(sanitizedInput) > -1) || sanitizedInput === '';
             }
         },
@@ -54,14 +51,10 @@ if (filterForm !== null) {
             baseFilter.checkTextInput('search_address', 'property_address'),
         ]
     }
-    console.log(`owner ${JSON.stringify(ownerFilter)}`)
 
     let queryParams = window.location.search.substr(1);
-    console.log(`QPARAMS ${JSON.stringify(queryParams)}`)
 
     if (queryParams) {
-        console.log(`TRUE QPARAMS ${JSON.stringify(queryParams)}`)
-        console.log(`TRUE QPARAMS ${queryParams}`)
         window.addEventListener('load', applyFilterFromQueryParams(queryParams));
     }
 

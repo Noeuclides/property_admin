@@ -1,7 +1,5 @@
 const display_address_form = () => {
     const selected_type = document.querySelector('#id_type');
-    console.log(selected_type)
-    console.log(selected_type.value)
     const urban_form = document.querySelector('#urban');
     const rural_form = document.querySelector('#rural');
 
