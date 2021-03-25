@@ -3,23 +3,20 @@
 Django application to register properties.
 
 ## Requirements
-To run on docker make sure to configurate Docker and docker compose on your local machine.
+To run the docker container make sure to configurate docker and docker compose on your local machine.
 
-Otherwise you have to set:
+Otherwise you have to set on your local machine:
 - Python3.7 or greater.
 
-- psql on your local machine.
+- psql.
 
 - The python package manager [pipenv](https://pipenv-es.readthedocs.io/es/latest/).
 
 
 ## Installation
-If docker:
-only run and go to http://127.0.0.1:8000 on the browser.
-```bash
-docker-compose up --build
-```
-Else:
+Only if you are not going to use docker:
+
+
 Install the dependencies:
 
 ```bash
@@ -33,19 +30,28 @@ psql postgres -f create_db.sql
 ```
 
 ## Usage
+If docker:
 
-Run the migrate command to have the db structure on your local db:
+- only run and go to http://127.0.0.1:8000 on the browser.
+```bash
+docker-compose up --build
+```
+
+Else:
+
+
+- Run the migrate command to have the db structure on your local db:
 
 ```bash
 pipenv run migrate
 ```
 
-And then you can run the server and go to the home page
+- Run the server and go to the home page
 ```bash
 pipenv run server
 ```
 
-To register a superuser run:
+- To register a superuser run:
 ```bash
 pipenv run createsuperuser
 ```
