@@ -1,4 +1,4 @@
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.db.models import Value as V
 from django.db.models.expressions import Case, When
 from django.db.models.functions import Concat
@@ -33,11 +33,15 @@ class PropertyList(LoginRequiredMixin, ListView):
         )
 
 
-class PropertyOwnerList(LoginRequiredMixin, DetailView):
+class PropertyOwnerList(UserPassesTestMixin, DetailView):
     model = User
     template_name = 'property/user_properties.html'
-    # login_url = reverse_lazy('users:login')
+    login_url = reverse_lazy('users:login')
     context_object_name = 'owner'
+
+    def test_func(self):
+        return self.request.user.id == self.kwargs['pk']
+
 
     def get_context_data(self, **kwargs):
         context = super(PropertyOwnerList, self).get_context_data(**kwargs)
@@ -58,7 +62,7 @@ class PropertyRegister(LoginRequiredMixin, CreateView):
     model = Property
     form_class = RegisterForm
     template_name = 'property/register_property.html'
-    # login_url = reverse_lazy('users:login')
+    login_url = reverse_lazy('users:login')
 
     def form_valid(self, form):
         user = User.objects.get(id=self.request.user.id)
@@ -69,19 +73,29 @@ class PropertyRegister(LoginRequiredMixin, CreateView):
         return reverse_lazy('property:owner_properties', kwargs={'pk': self.request.user.id})
 
 
-class PropertyUpdate(LoginRequiredMixin, UpdateView):
+class PropertyUpdate(UserPassesTestMixin, UpdateView):
     model = Property
     form_class = RegisterForm
     template_name = 'property/register_property.html'
+    login_url = reverse_lazy('users:login')
+
+    def test_func(self):
+        property = self.model.objects.get(id=self.kwargs['pk'])
+        return self.request.user.id == property.owner.id
 
     def get_success_url(self):
         return reverse_lazy('property:owner_properties', kwargs={'pk': self.request.user.id})
 
 
-class PropertyDelete(LoginRequiredMixin, DeleteView):
+class PropertyDelete(UserPassesTestMixin, DeleteView):
     model = Property
     form_class = RegisterForm
     template_name = 'property/delete_property.html'
+    login_url = reverse_lazy('users:login')
+
+    def test_func(self):
+        property = self.model.objects.get(id=self.kwargs['pk'])
+        return self.request.user.id == property.owner.id
 
     def delete(self, request, *args, **kwargs):
         self.object = self.get_object()

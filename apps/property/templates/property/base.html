@@ -25,15 +25,15 @@
     <header id="header" class="fixed-top">
         <div class="container d-flex align-items-center justify-content-between">
 
-            <h1 class="logo"><a href="index.html">Property Admin App</a></h1>
-            <!-- <a href="index.html" class="logo"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
+            <h1 class="logo"><a href="{% url 'home' %}">Administrador de Predios</a></h1>
 
             <nav id="navbar" class="navbar">
                 <ul>
                     <li><a class="nav-link scrollto active" href="{% url 'home' %}">Home</a></li>
+                    {% if request.user.is_authenticated %}
                     <li><a class="nav-link scrollto" href="{% url 'property:owner_properties' request.user.id %}">Mis Propiedades</a></li>
                     <li><a class="nav-link scrollto" href="{% url 'users:logout' %}">logout</a></li>
-                    {% if not request.user.is_authenticated %}
+                    {% else %}
                     <li><a class="getstarted scrollto" href="{% url 'users:login' %}">Iniciar Sesión</a></li>
                     <li><a class="getstarted scrollto" href="{% url 'users:register' %}">Registrarse</a></li>
                     {% endif %}
@@ -60,6 +60,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
     <script type="text/javascript" src="{% static 'js/filter.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/address_form.js' %}"></script>
 
 </body>
 

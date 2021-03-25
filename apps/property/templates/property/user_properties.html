@@ -1,9 +1,7 @@
 {% extends 'property/base.html' %}
 {% load static %}
 {% block content %}
-{{owner}}
-<a class="nav-link scrollto" href="{% url 'property:register_property' %}">registrar</a>
-
+<h3>Hola {{ owner }}</h3>
 {% if property_obj %}
 <h5>Filtrar Resultados</h5>
 <form class="row" data-filter-form>
@@ -61,7 +59,9 @@
     </table>
 </div>
 {% else %}
-<h2>No tienes predios registrados.</h2>
+<h2>Todavía no tienes predios registrados.</h2>
 {% endif %}
+<a class="nav-link scrollto" href="{% url 'property:register_property' %}">registrar</a>
+
 
 {% endblock %}
