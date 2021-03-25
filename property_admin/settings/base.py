@@ -12,7 +12,12 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 
 import os
 from pathlib import Path
+from environ import Env
 from django.urls import reverse_lazy
+
+
+env = Env()
+env.read_env(env_file='property_admin/.env')
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
@@ -22,10 +27,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '&+2tr7z9h80gb8di&*c%_gzgzmyph3cd2b2m!y42k91^7g)t5j'
+print(env('DJANGO_SECRET_KEY'))
+SECRET_KEY = env('DJANGO_SECRET_KEY') 
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = env('DJANGO_DEBUG', default=False)
 
 ALLOWED_HOSTS = []
 
