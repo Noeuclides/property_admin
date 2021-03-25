@@ -1,10 +1,27 @@
 {% extends 'users/base.html' %}
 {% load static %}
 {% block content %}
-<form method="POST">
-    {% csrf_token %}
-    {{ form.as_table }}
-    <button class="btn" type="submit">Enviar</button>
+<div class="form-container">
+    <h4><strong>Registro de usuario</strong></h4>
+    <form method="POST">
+        {% csrf_token %}
+        {% if form.non_field_errors %}
+        <div>
+            {% for error in form.non_field_errors %}
+            <div class="error bg-danger rounded px-3 py-1 text-white my-1"> ⚠ {{ error }}</div>
+            {% endfor %}
+        </div>
+        {% endif %}
+        {% for field in form %}
+        <div class="form-group">
+            <label>{{ field.label }}</label>
+            {{ field }}
+        </div>
+        {% endfor %}
+        
+        <button type="submit" class="btn btn-primary">Registrar</button>
+        <a href="{% url 'users:login' %}" class="signup-image-link">Login</a>
 
-</form>
+    </form>
+</div>
 {% endblock %}

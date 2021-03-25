@@ -1,62 +1,72 @@
 from django import forms
 from django.contrib.auth.forms import AuthenticationForm
+
 from apps.users.models import User
 
 
 class LoginForm(AuthenticationForm):
     def __init__(self, *args, **kwargs):
-        super(LoginForm, self).__init__(*args,**kwargs)
-        self.fields['email'].widget.attrs['class'] = 'form-control'
-        self.fields['email'].widget.attrs['placeholder'] = 'Email'
+        super(LoginForm, self).__init__(*args, **kwargs)
+        self.fields['username'].widget.attrs['class'] = 'form-control'
+        self.fields['username'].widget.attrs['placeholder'] = 'Email'
         self.fields['password'].widget.attrs['class'] = 'form-control'
         self.fields['password'].widget.attrs['placeholder'] = 'password'
-    
-class RegisterForm(forms.ModelForm):
-   
-    password1 = forms.CharField(label = 'password',widget = forms.PasswordInput(
-        attrs = {
-            'class': 'form-control',
-            'placeholder': 'password',
-            'id': 'password1',
-            'required':'required',
-        }
-    ))
 
-    password2 = forms.CharField(label = 'Confirm password', widget = forms.PasswordInput(
+
+class RegisterForm(forms.ModelForm):
+
+    password1 = forms.CharField(label='Contraseña', widget=forms.PasswordInput(
         attrs={
             'class': 'form-control',
-            'placeholder': 'Confirm password',
-            'id': 'password2',
+            'placeholder': 'Contraseña',
+            'id': 'password1',
             'required': 'required',
         }
     ))
 
+    password2 = forms.CharField(
+        label='Confirmar contraseña',
+        widget=forms.PasswordInput(
+            attrs={
+                'class': 'form-control',
+                'placeholder': 'Confirmar contraseña',
+                'id': 'password2',
+                'required': 'required',
+            }
+        ))
+
     class Meta:
         model = User
-        fields = ('email','id_card','name','last_name')
+        fields = ('email', 'id_card', 'name', 'last_name')
+        labels = {
+            'email': 'Correo electrónico',
+            'id_card': 'Documento de identificación',
+            'name': 'Nombres',
+            'last_name': 'Apellidos',
+        }
         widgets = {
             'email': forms.EmailInput(
-                attrs = {
+                attrs={
                     'class': 'form-control',
-                    'placeholder': 'Email',
+                    'placeholder': 'Correo',
                 }
             ),
             'name': forms.TextInput(
                 attrs={
                     'class': 'form-control',
-                    'placeholder': 'Name',
+                    'placeholder': 'Nombres',
                 }
             ),
             'last_name': forms.TextInput(
-                attrs = {
+                attrs={
                     'class': 'form-control',
-                    'placeholder': 'Last name',
-                }                
+                    'placeholder': 'Apellidos',
+                }
             ),
             'id_card': forms.TextInput(
-                attrs = {
+                attrs={
                     'class': 'form-control',
-                    'placeholder': 'ID CARD',
+                    'placeholder': 'Documento de identificación',
                 }
             )
         }
@@ -68,8 +78,8 @@ class RegisterForm(forms.ModelForm):
             raise forms.ValidationError('Passwords do not match')
         return password2
 
-    def save(self,commit = True):
-        user = super().save(commit = False)
+    def save(self, commit=True):
+        user = super().save(commit=False)
         user.set_password(self.cleaned_data['password1'])
         if commit:
             user.save()

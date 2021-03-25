@@ -17,11 +17,13 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+from apps.property.views import home
 
 urlpatterns = [
+    path('', home),
     path('admin/', admin.site.urls),
-    path('users/', include(('apps.users.urls', 'users'))),
-    path('property/', include(('apps.property.urls', 'property'))),
+    path('usuario/', include(('apps.users.urls', 'users'))),
+    path('predio/', include(('apps.property.urls', 'property'))),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 urlpatterns += static(

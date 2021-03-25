@@ -1,23 +1,20 @@
-import json
-from django.shortcuts import render, redirect
+from django.contrib.auth import authenticate, login, logout
+from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy
-from django.core.serializers import serialize
+from django.urls.base import reverse
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_protect
+from django.views.generic import CreateView, ListView
 from django.views.generic.edit import FormView
-from django.contrib.auth import login, logout
-from django.http import HttpResponseRedirect, JsonResponse
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import CreateView, TemplateView, ListView
-from apps.users.models import User
+
 from apps.users.forms import LoginForm, RegisterForm
-# from apps.users.mixins import LoginYSuperStaffMixin, ValidarPermisosMixin
+from apps.users.models import User
 
 
 class Login(FormView):
-    template_name = 'login.html'
+    template_name = 'users/login.html'
     form_class = LoginForm
-    success_url = reverse_lazy('index')
+    success_url = reverse_lazy('property:owner_properties')
 
     @method_decorator(csrf_protect)
     def dispatch(self, request, *args, **kwargs):
@@ -33,7 +30,7 @@ class Login(FormView):
 
 def user_logout(request):
     logout(request)
-    return HttpResponseRedirect('/accounts/login/')
+    return HttpResponseRedirect('/users/login')
 
 
 class UserList(ListView):
@@ -48,4 +45,11 @@ class UserRegister(CreateView):
     model = User
     form_class = RegisterForm
     template_name = 'users/registration.html'
-    success_url = reverse_lazy('property:properties')
+
+    def form_valid(self, form):
+        form.save()
+        email = form.cleaned_data.get('email')
+        password = form.cleaned_data.get('password1')
+        user = authenticate(username=email, password=password)
+        login(self.request, user)
+        return HttpResponseRedirect(reverse('property:owner_properties', kwargs={'pk': user.id}))
