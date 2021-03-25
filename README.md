@@ -3,15 +3,23 @@
 Django application to register properties.
 
 ## Requirements
-Python3.7 or greater.
+To run on docker make sure to configurate Docker and docker compose on your local machine.
 
-You have to set psql on your local machine.
+Otherwise you have to set:
+- Python3.7 or greater.
 
-To run the django app use the python package manager [pipenv](https://pipenv-es.readthedocs.io/es/latest/).
+- psql on your local machine.
+
+- The python package manager [pipenv](https://pipenv-es.readthedocs.io/es/latest/).
 
 
 ## Installation
-
+If docker:
+only run and go to http://127.0.0.1:8000 on the browser.
+```bash
+docker-compose up --build
+```
+Else:
 Install the dependencies:
 
 ```bash
