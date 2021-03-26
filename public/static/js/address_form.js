@@ -11,4 +11,3 @@ const display_address_form = () => {
         rural_form.style.display = "";
     }
 }
-display_address_form();

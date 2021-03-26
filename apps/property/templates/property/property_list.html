@@ -21,11 +21,8 @@
             <label for="search_property_type">Tipo de Predio</label>
             <select onchange="propertyFilter.filter()" class="form-control" id="search_property_type">
                 <option value="all">Todos</option>
-                {% for property in property_obj %}
-                {% ifchanged %}
-                <option value="{{ property.type }}">{{ property.type }}</option>
-                {% endifchanged %}
-                {% endfor %}
+                <option value="Rural">Rural</option>
+                <option value="Urbano">Urbano</option>
             </select>
         </div>
         <div class="col-sm-2 form-group">
@@ -60,10 +57,15 @@
             <tr class="property_description">
                 <th scope="row" class="property_catastral_id">{{ property.cadastral_id }}</th>
                 <td class="property_register_number">{{ property.registration_number }}</td>
-                <td class="property_type">{{ property.type }}</td>
+                <td class="property_type">{{ property.get_type_display }}</td>
                 <td class="property_address">{{ property.address }}</td>
+                {% if property.company %}
+                <td class="owner_name">{{ property.company }}</td>
+                <td class="owner_id">{{ property.company.nit }}</td>
+                {% else %}
                 <td class="owner_name">{{ property.owner }}</td>
                 <td class="owner_id">{{ property.owner.id_card }}</td>
+                {% endif %}
             </tr>
             {% endfor %}
         </tbody>

@@ -2,26 +2,26 @@ from django import forms
 from apps.property.models import Company, Property
 
 
-class RegisterForm(forms.ModelForm):
+class PropertyRegisterForm(forms.ModelForm):
 
     class Meta:
         model = Property
         exclude = ['owner', '_delete']
 
     def __init__(self, *args, **kwargs):
-        super(RegisterForm, self).__init__(*args, **kwargs)
+        super(PropertyRegisterForm, self).__init__(*args, **kwargs)
+        # self.fields['type'].initial = None
         for visible in self.visible_fields():
+            print(visible.field)
+            print(visible.field.initial)
             if hasattr(visible.field.widget, 'input_type'):
-                if visible.field.widget.input_type == 'text':
-                    visible.field.widget.attrs['class'] = 'form-control'
-                elif visible.field.widget.input_type == 'select':
-                    visible.field.widget.attrs['class'] = 'custom-select'
+                visible.field.widget.attrs['class'] = 'form-control'
 
     def clean(self):
         """
         valida la cantidad de ods seleccionadas
         """
-        cleaned_data = super(RegisterForm, self).clean()
+        cleaned_data = super(PropertyRegisterForm, self).clean()
         if type == 1:
             # urbano
             street = cleaned_data.get('street')

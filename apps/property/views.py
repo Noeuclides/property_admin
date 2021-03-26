@@ -1,14 +1,11 @@
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.db.models import Value as V
-from django.db.models.expressions import Case, When
-from django.db.models.functions import Concat
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import (CreateView, DeleteView, DetailView, ListView,
                                   UpdateView)
 
-from apps.property.forms import RegisterForm, CompanyRegisterForm
+from apps.property.forms import PropertyRegisterForm, CompanyRegisterForm
 from apps.property.models import Company, Property
 from apps.users.models import User
 
@@ -19,12 +16,12 @@ def home(request):
 
 class PropertyList(LoginRequiredMixin, ListView):
     model = Property
-    template_name = 'property/user_list.html'
+    template_name = 'property/property_list.html'
     login_url = reverse_lazy('users:login')
     context_object_name = 'property_obj'
 
     def get_queryset(self):
-        return self.model.objects.select_related('owner')
+        return self.model.objects.select_related('owner', 'company')
 
 
 class PropertyOwnerList(UserPassesTestMixin, DetailView):
@@ -48,7 +45,7 @@ class PropertyOwnerList(UserPassesTestMixin, DetailView):
 
 class PropertyRegister(LoginRequiredMixin, CreateView):
     model = Property
-    form_class = RegisterForm
+    form_class = PropertyRegisterForm
     template_name = 'property/register_property.html'
     login_url = reverse_lazy('users:login')
 
@@ -63,7 +60,7 @@ class PropertyRegister(LoginRequiredMixin, CreateView):
 
 class PropertyUpdate(UserPassesTestMixin, UpdateView):
     model = Property
-    form_class = RegisterForm
+    form_class = PropertyRegisterForm
     template_name = 'property/register_property.html'
     login_url = reverse_lazy('users:login')
 
@@ -77,7 +74,7 @@ class PropertyUpdate(UserPassesTestMixin, UpdateView):
 
 class PropertyDelete(UserPassesTestMixin, DeleteView):
     model = Property
-    form_class = RegisterForm
+    form_class = PropertyRegisterForm
     template_name = 'property/delete_property.html'
     login_url = reverse_lazy('users:login')
 
