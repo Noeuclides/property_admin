@@ -14,20 +14,21 @@ ALLOWED_HOSTS = [
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'property_db',
-        'USER': 'property_user',
-        'PASSWORD': 'property_pass',
-        'HOST': 'localhost',
-        'PORT': '',
+if not CONTAINER_RUNNING:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': 'property_db',
+            'USER': 'property_user',
+            'PASSWORD': 'property_pass',
+            'HOST': 'localhost',
+            'PORT': '',
+        }
     }
-}
-
-DATABASES = {
-    'default': env.db()
-}
+else:
+    DATABASES = {
+        'default': env.db()
+    }
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.1/howto/static-files/

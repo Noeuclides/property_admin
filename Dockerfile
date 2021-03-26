@@ -1,6 +1,7 @@
 FROM python:3
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
+ENV CONTAINER_RUNNING Yes
 
 # Create a working directory for the django project
 WORKDIR /code

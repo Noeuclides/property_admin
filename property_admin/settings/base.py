@@ -19,6 +19,9 @@ from django.urls import reverse_lazy
 env = Env()
 env.read_env(env_file='property_admin/.env')
 
+# Variable to check if the container is running
+CONTAINER_RUNNING = os.environ.get('CONTAINER_RUNNING', False)
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
@@ -27,7 +30,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-print(env('DJANGO_SECRET_KEY'))
 SECRET_KEY = env('DJANGO_SECRET_KEY') 
 
 # SECURITY WARNING: don't run with debug turned on in production!
